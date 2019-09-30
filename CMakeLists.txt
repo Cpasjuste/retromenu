@@ -44,7 +44,7 @@ set(TITLE_ID "RETRO0001")
 # code
 #############
 set(INCLUDES ${CMAKE_SOURCE_DIR}/source)
-file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/source/*.cpp)
+file(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/source/*.cpp)
 set(CUSTOM_CFLAGS
         -DVERSION_MAJOR="${VERSION_MAJOR}"
         -DVERSION_MINOR="${VERSION_MINOR}")

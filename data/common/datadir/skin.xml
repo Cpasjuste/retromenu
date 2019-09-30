@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    rectangle: ...
+    rectangle origin: Left, TopLeft, Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Center
+-->
+<!--
+    tween: tweenPosition, tweenScale, tweenRotation, tweenColor, tweenAlpha
+    tween loop: none, loop, pingpong
+-->
+<Skin>
+    <LoadingWindow x="0" y="0" w="1280" h="720">
+        <text x="4" y="4" w="1280" h="25" origin="TopLeft">
+            <color r="255" g="255" b="0" a="255"/>
+            <outline r="255" g="0" b="0" a="255" size="2"/>
+            <string>Hello (Skinnable) World</string>
+        </text>
+        <rectangle x="32" y="32" w="64" h="64" origin="TopLeft">
+            <color r="0" g="255" b="0" a="255"/>
+            <outline r="255" g="0" b="0" a="255" size="1"/>
+            <rectangle x="32" y="32" w="32" h="32" origin="Center">
+                <color r="255" g="255" b="0" a="255"/>
+                <outline r="255" g="0" b="255" a="255" size="1"/>
+            </rectangle>
+        </rectangle>
+        <rectangle x="160" y="48" w="64" h="64" origin="Center">
+            <color r="0" g="0" b="255" a="255"/>
+            <outline r="0" g="255" b="0" a="255" size="1"/>
+            <tweenPosition fromX="160" fromY="-128" toX="160" toY="48" duration="1" loop="none"/>
+            <tweenScale fromX="1" fromY="1" toX="0.5" toY="0.5" duration="1" loop="pingpong"/>
+            <tweenRotation from="0" to="360" duration="1" loop="loop"/>
+            <tweenColor fromR="0" fromG="0" fromB="255" fromA="255" toR="255" toG="0" toB="0" toA="255" duration="1" loop="pingpong"/>
+            <tweenAlpha from="255" to="100" duration="0.5" loop="pingpong"/>
+            <text x="32" y="32" w="1280" h="25" origin="Center">
+                <color r="255" g="255" b="0" a="255"/>
+                <outline r="255" g="0" b="0" a="255" size="2"/>
+                <string>ROT</string>
+            </text>
+        </rectangle>
+    </LoadingWindow>
+</Skin>
