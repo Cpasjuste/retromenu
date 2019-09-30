@@ -3,14 +3,14 @@
 //
 
 #include "XMLUtility.h"
-#include "XMLRectangle.h"
+#include "XMLTexture.h"
 
 using namespace c2d;
 using namespace tinyxml2;
 
-XMLRectangle::XMLRectangle(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2DRectangle(Vector2f()) {
+XMLTexture::XMLTexture(c2d::C2DObject *parent, tinyxml2::XMLNode *node, const std::string &path) : C2DTexture(path) {
 
-    printf("XMLRectangle()\n");
+    printf("XMLTexture()\n");
 
     // should not happen
     if (!node) {

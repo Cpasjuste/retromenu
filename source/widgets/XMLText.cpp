@@ -7,7 +7,7 @@
 
 using namespace c2d;
 
-XMLText::XMLText(tinyxml2::XMLNode *node) : C2DText("") {
+XMLText::XMLText(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2DText("") {
 
     printf("XMLText()\n");
 
@@ -17,5 +17,5 @@ XMLText::XMLText(tinyxml2::XMLNode *node) : C2DText("") {
         return;
     }
 
-    XMLUtility::loadSection(this, node);
+    XMLUtility::loadObject(this, parent, node);
 }

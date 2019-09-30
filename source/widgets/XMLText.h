@@ -11,7 +11,7 @@
 class XMLText : public c2d::C2DText {
 
 public:
-    explicit XMLText(tinyxml2::XMLNode *node);
+    explicit XMLText(c2d::C2DObject *parent, tinyxml2::XMLNode *node);
 };
 
 #endif //RETROMENU_XMLTEXT_H

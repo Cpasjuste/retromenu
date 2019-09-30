@@ -13,7 +13,9 @@ class XMLUtility {
 
 public:
 
-    static bool loadSection(c2d::C2DObject *object, tinyxml2::XMLNode *node);
+    static bool loadObject(c2d::C2DObject *me, c2d::C2DObject *parent, tinyxml2::XMLNode *node);
+
+private:
 
     static std::string getAttribute(tinyxml2::XMLElement *element, const std::string &name);
 
@@ -25,7 +27,7 @@ public:
 
     static int getTextInt(tinyxml2::XMLElement *element);
 
-    static c2d::FloatRect getRectangle(tinyxml2::XMLElement *element);
+    static c2d::FloatRect getRectangle(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize);
 
     static c2d::Color getColor(tinyxml2::XMLElement *element);
 

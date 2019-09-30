@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    rectangle: ...
+    rectangle x: x position in pixels ("100") or percent ("100%")
+    rectangle y: y position in pixels ("100") or percent ("100%")
+    rectangle w: width in pixels ("100"), percent relative to parent ("100%") or parent width minus value ("-100")
+    rectangle h: height in pixels ("100"), percent relative to parent ("100%") or parent width minus value ("-100")
     rectangle origin: Left, TopLeft, Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Center
 -->
 <!--
@@ -8,7 +11,20 @@
     tween loop: none, loop, pingpong
 -->
 <Skin>
-    <LoadingWindow x="0" y="0" w="1280" h="720">
+    <LoadingScene x="0" y="0" w="100%" h="100%">
+        <rectangle x="2" y="2" w="-4" h="-4" origin="TopLeft">
+            <color r="70" g="70" b="70" a="255"/>
+            <outline r="255" g="51" b="51" a="255" size="2"/>
+            <texture x="3%" y="95%" w="3%" h="5%" origin="Center">
+                <color r="255" g="255" b="255" a="255"/>
+                <ratio>keep</ratio>
+                <path>loading.png</path>
+                <tweenRotation from="0" to="360" duration="2" loop="loop"/>
+                <tweenPosition fromX="-20" fromY="680" toX="40" toY="680" duration="1" loop="none"/>
+            </texture>
+        </rectangle>
+
+        <!--
         <text x="4" y="4" w="1280" h="25" origin="TopLeft">
             <color r="255" g="255" b="0" a="255"/>
             <outline r="255" g="0" b="0" a="255" size="2"/>
@@ -36,5 +52,11 @@
                 <string>ROT</string>
             </text>
         </rectangle>
-    </LoadingWindow>
+        <texture x="50%" y="50%" w="50%" h="50%" origin="TopLeft">
+            <color r="255" g="255" b="255" a="255"/>
+            <outline r="255" g="0" b="255" a="255" size="10"/>
+            <path>pfba.png</path>
+        </texture>
+        -->
+    </LoadingScene>
 </Skin>

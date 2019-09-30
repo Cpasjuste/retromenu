@@ -5,16 +5,13 @@
 #include <cstdio>
 #include <tinyxml2.h>
 #include <cross2d/c2d.h>
-#include "windows/LoadingWindow.h"
+#include "scenes/Scene.h"
 #include "main.h"
 
 using namespace c2d;
 using namespace tinyxml2;
 
 int main(int argc, char **argv) {
-
-    printf("Hello World\n");
-
 
     // create main renderer
     auto renderer = new C2DRenderer({1280, 720});
@@ -33,8 +30,14 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    auto window = new LoadingWindow(root);
-    renderer->add(window);
+    XMLNode *sceneNode = root->FirstChildElement("LoadingScene");
+    if (!sceneNode) {
+        printf("Scene::Scene(): could not find Scene xml node\n");
+        return -1;
+    }
+
+    auto scene = new Scene(renderer, sceneNode);
+    renderer->add(scene);
 
     while (true) {
 
@@ -47,6 +50,5 @@ int main(int argc, char **argv) {
     }
 
     doc.Clear();
-    delete (window);
     delete (renderer);
 }

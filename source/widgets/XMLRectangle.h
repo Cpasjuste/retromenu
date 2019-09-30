@@ -11,7 +11,7 @@
 class XMLRectangle : public c2d::C2DRectangle {
 
 public:
-    explicit XMLRectangle(tinyxml2::XMLNode *node);
+    explicit XMLRectangle(c2d::C2DObject *parent, tinyxml2::XMLNode *node);
 };
 
 #endif //RETROMENU_XMLRECTANGLE_H
