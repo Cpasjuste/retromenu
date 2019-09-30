@@ -5,10 +5,4 @@
 #ifndef RETROMENU_MAIN_H
 #define RETROMENU_MAIN_H
 
-
-class main {
-
-};
-
-
 #endif //RETROMENU_MAIN_H

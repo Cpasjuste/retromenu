@@ -1,0 +1,6 @@
+[submodule "external/libcross2d"]
+	path = external/libcross2d
+	url = git@github.com:Cpasjuste/libcross2d.git
+[submodule "external/sscrap"]
+	path = external/sscrap
+	url = git@github.com:Cpasjuste/sscrap.git
