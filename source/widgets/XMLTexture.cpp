@@ -35,7 +35,7 @@ XMLTexture::XMLTexture(c2d::C2DObject *parent, tinyxml2::XMLNode *node, const st
         if (value == "rectangle" || value == "texture" || value == "text") {
             XMLUtility::addChild(this, child);
         } else if (Utility::startWith(value, "tween")) {
-            XMLUtility::addTween(this, child);
+            XMLUtility::addTween(this, parentSize, child);
         } else {
             // this object values
             if (value == "color") {
@@ -44,9 +44,9 @@ XMLTexture::XMLTexture(c2d::C2DObject *parent, tinyxml2::XMLNode *node, const st
                 setOutlineColor(XMLUtility::getOutlineColor(element));
                 setOutlineThickness((float) XMLUtility::getOutlineSize(element));
             } else if (value == "ratio") {
-                if (XMLUtility::getText(element) == "width") {
+                if (XMLUtility::getText(element) == "keep_width") {
                     setScale(getScale().x, getScale().x);
-                } else if (XMLUtility::getText(element) == "height") {
+                } else if (XMLUtility::getText(element) == "keep_height") {
                     setScale(getScale().y, getScale().y);
                 }
             }

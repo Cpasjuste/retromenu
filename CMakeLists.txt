@@ -53,7 +53,7 @@ set(CUSTOM_LDFLAGS)
 #############
 # executable
 #############
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} source/SceneManager.cpp source/SceneManager.h)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 target_compile_options(${PROJECT_NAME} PRIVATE ${CUSTOM_CFLAGS})
 target_compile_options(${PROJECT_NAME} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-std=c++14 -fexceptions>)

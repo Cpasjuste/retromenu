@@ -35,7 +35,7 @@ XMLText::XMLText(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2DText("") 
         if (value == "rectangle" || value == "texture" || value == "text") {
             XMLUtility::addChild(this, child);
         } else if (Utility::startWith(value, "tween")) {
-            XMLUtility::addTween(this, child);
+            XMLUtility::addTween(this, parentSize, child);
         } else {
             // this object values
             if (value == "color") {

@@ -15,7 +15,7 @@ public:
 
     static void addChild(c2d::C2DObject *parent, tinyxml2::XMLNode *node);
 
-    static void addTween(c2d::C2DObject *parent, tinyxml2::XMLNode *node);
+    static void addTween(c2d::C2DObject *parent, const c2d::Vector2f &parentSize, tinyxml2::XMLNode *node);
 
     static c2d::Vector2f getParentSize(c2d::C2DObject *parent);
 
@@ -39,15 +39,19 @@ public:
 
     static c2d::Origin getOrigin(tinyxml2::XMLElement *element);
 
-    static c2d::TweenPosition *getTweenPosition(tinyxml2::XMLElement *element);
+private:
 
-    static c2d::TweenRotation *getTweenRotation(tinyxml2::XMLElement *element);
+    static c2d::TweenPosition *getTweenPosition(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize);
 
-    static c2d::TweenScale *getTweenScale(tinyxml2::XMLElement *element);
+    static c2d::TweenRotation *getTweenRotation(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize);
 
-    static c2d::TweenColor *getTweenColor(tinyxml2::XMLElement *element);
+    static c2d::TweenScale *getTweenScale(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize);
 
-    static c2d::TweenAlpha *getTweenAlpha(tinyxml2::XMLElement *element);
+    static c2d::TweenColor *getTweenColor(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize);
+
+    static c2d::TweenAlpha *getTweenAlpha(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize);
+
+    static float getSize(const std::string &attribute, float parentSize);
 };
 
 #endif //RETROMENU_XMLUTILITY_H

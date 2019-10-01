@@ -21,7 +21,7 @@ void XMLUtility::addChild(c2d::C2DObject *parent, tinyxml2::XMLNode *node) {
         // ADD CHILD (TEXTURE)
         tinyxml2::XMLElement *e = node->ToElement()->FirstChildElement("path");
         if (e) {
-            std::string path = XMLUtility::getText(e);
+            std::string path = getText(e);
             if (!path.empty()) {
                 auto obj = new XMLTexture(parent, node, path);
                 parent->add(obj);
@@ -31,39 +31,6 @@ void XMLUtility::addChild(c2d::C2DObject *parent, tinyxml2::XMLNode *node) {
         // ADD CHILD (TEXT)
         auto obj = new XMLText(parent, node);
         parent->add(obj);
-    }
-}
-
-void XMLUtility::addTween(c2d::C2DObject *parent, tinyxml2::XMLNode *node) {
-
-    std::string value = node->Value();
-    tinyxml2::XMLElement *element = node->ToElement();
-
-    if (value == "tweenPosition") {
-        auto tween = XMLUtility::getTweenPosition(element);
-        if (tween) {
-            parent->add(tween);
-        }
-    } else if (value == "tweenRotation") {
-        auto tween = XMLUtility::getTweenRotation(element);
-        if (tween) {
-            parent->add(tween);
-        }
-    } else if (value == "tweenScale") {
-        auto tween = XMLUtility::getTweenScale(element);
-        if (tween) {
-            parent->add(tween);
-        }
-    } else if (value == "tweenColor") {
-        auto tween = XMLUtility::getTweenColor(element);
-        if (tween) {
-            parent->add(tween);
-        }
-    } else if (value == "tweenAlpha") {
-        auto tween = XMLUtility::getTweenAlpha(element);
-        if (tween) {
-            parent->add(tween);
-        }
     }
 }
 
@@ -123,45 +90,25 @@ c2d::FloatRect XMLUtility::getRectangle(tinyxml2::XMLElement *element, const c2d
     FloatRect rect{};
 
     if (element) {
-        std::string x = getAttribute(element, "x");
-        std::string y = getAttribute(element, "y");
-        std::string w = getAttribute(element, "w");
-        std::string h = getAttribute(element, "h");
-
-        if (Utility::contains(x, "%")) {
-            float scaling = Utility::parseFloat(Utility::remove(x, "%")) / 100;
-            rect.left = parentSize.x * scaling;
-        } else {
-            rect.left = getAttributeInt(element, "x");
-        }
-
-        if (Utility::contains(y, "%")) {
-            float scaling = Utility::parseFloat(Utility::remove(y, "%")) / 100;
-            rect.top = parentSize.y * scaling;
-        } else {
-            rect.top = getAttributeInt(element, "y");
-        }
-
-        if (Utility::contains(w, "%")) {
-            float scaling = Utility::parseFloat(Utility::remove(w, "%")) / 100.0f;
-            rect.width = parentSize.x * scaling;
-        } else if (Utility::contains(w, "-")) {
-            rect.width = parentSize.x - Utility::parseFloat(Utility::remove(w, "-"));
-        } else {
-            rect.width = getAttributeInt(element, "w");
-        }
-
-        if (Utility::contains(h, "%")) {
-            float scaling = Utility::parseFloat(Utility::remove(h, "%")) / 100;
-            rect.height = parentSize.y * scaling;
-        } else if (Utility::contains(h, "-")) {
-            rect.height = parentSize.y - Utility::parseFloat(Utility::remove(h, "-"));
-        } else {
-            rect.height = getAttributeInt(element, "h");
-        }
+        rect.left = getSize(getAttribute(element, "x"), parentSize.x);
+        rect.top = getSize(getAttribute(element, "y"), parentSize.y);
+        rect.width = getSize(getAttribute(element, "w"), parentSize.x);
+        rect.height = getSize(getAttribute(element, "h"), parentSize.y);
     }
 
     return rect;
+}
+
+float XMLUtility::getSize(const std::string &attribute, float parentSize) {
+
+    if (Utility::contains(attribute, "%")) {
+        float scaling = Utility::parseFloat(Utility::remove(attribute, "%")) / 100;
+        return parentSize * scaling;
+    } else if (Utility::contains(attribute, "-")) {
+        return parentSize - Utility::parseFloat(Utility::remove(attribute, "-"));
+    }
+
+    return Utility::parseFloat(attribute);
 }
 
 c2d::Color XMLUtility::getColor(tinyxml2::XMLElement *element) {
@@ -234,40 +181,76 @@ c2d::Origin XMLUtility::getOrigin(tinyxml2::XMLElement *element) {
     return origin;
 }
 
-c2d::TweenPosition *XMLUtility::getTweenPosition(tinyxml2::XMLElement *element) {
+void XMLUtility::addTween(c2d::C2DObject *parent, const c2d::Vector2f &parentSize, tinyxml2::XMLNode *node) {
+
+    std::string value = node->Value();
+    tinyxml2::XMLElement *element = node->ToElement();
+
+    if (value == "tweenPosition") {
+        auto tween = getTweenPosition(element, parentSize);
+        if (tween) {
+            parent->add(tween);
+        }
+    } else if (value == "tweenRotation") {
+        auto tween = getTweenRotation(element, parentSize);
+        if (tween) {
+            parent->add(tween);
+        }
+    } else if (value == "tweenScale") {
+        auto tween = getTweenScale(element, parentSize);
+        if (tween) {
+            parent->add(tween);
+        }
+    } else if (value == "tweenColor") {
+        auto tween = getTweenColor(element, parentSize);
+        if (tween) {
+            parent->add(tween);
+        }
+    } else if (value == "tweenAlpha") {
+        auto tween = getTweenAlpha(element, parentSize);
+        if (tween) {
+            parent->add(tween);
+        }
+    }
+}
+
+c2d::TweenPosition *XMLUtility::getTweenPosition(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
 
     if (!element || std::string(element->Value()) != "tweenPosition") {
         return nullptr;
     }
 
-    Vector2f from = {XMLUtility::getAttributeInt(element, "fromX"),
-                     XMLUtility::getAttributeInt(element, "fromY")};
-    Vector2f to = {XMLUtility::getAttributeInt(element, "toX"),
-                   XMLUtility::getAttributeInt(element, "toY")};
-    float duration = XMLUtility::getAttributeFloat(element, "duration");
+    Vector2f from = {
+            getSize(getAttribute(element, "fromX"), parentSize.x),
+            getSize(getAttribute(element, "fromY"), parentSize.y)
+    };
+    Vector2f to = {
+            getSize(getAttribute(element, "toX"), parentSize.x),
+            getSize(getAttribute(element, "toY"), parentSize.y)
+    };
+    float duration = getAttributeFloat(element, "duration");
     TweenLoop loop = TweenLoop::None;
-    std::string str = XMLUtility::getAttribute(element, "loop");
+    std::string str = getAttribute(element, "loop");
     if (str == "loop") {
         loop = TweenLoop::Loop;
     } else if (str == "pingpong") {
         loop = TweenLoop::PingPong;
     }
 
-    auto tween = new TweenPosition(from, to, duration, loop, TweenState::Playing);
-    return tween;
+    return new TweenPosition(from, to, duration, loop, TweenState::Playing);
 }
 
-c2d::TweenRotation *XMLUtility::getTweenRotation(tinyxml2::XMLElement *element) {
+c2d::TweenRotation *XMLUtility::getTweenRotation(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
 
     if (!element || std::string(element->Value()) != "tweenRotation") {
         return nullptr;
     }
 
-    float from = (float) XMLUtility::getAttributeInt(element, "from");
-    float to = (float) XMLUtility::getAttributeInt(element, "to");
-    float duration = XMLUtility::getAttributeFloat(element, "duration");
+    float from = (float) getAttributeInt(element, "from");
+    float to = (float) getAttributeInt(element, "to");
+    float duration = getAttributeFloat(element, "duration");
     TweenLoop loop = TweenLoop::None;
-    std::string str = XMLUtility::getAttribute(element, "loop");
+    std::string str = getAttribute(element, "loop");
     if (str == "loop") {
         loop = TweenLoop::Loop;
     } else if (str == "pingpong") {
@@ -278,19 +261,19 @@ c2d::TweenRotation *XMLUtility::getTweenRotation(tinyxml2::XMLElement *element) 
     return tween;
 }
 
-c2d::TweenScale *XMLUtility::getTweenScale(tinyxml2::XMLElement *element) {
+c2d::TweenScale *XMLUtility::getTweenScale(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
 
     if (!element || std::string(element->Value()) != "tweenScale") {
         return nullptr;
     }
 
-    Vector2f from = {XMLUtility::getAttributeFloat(element, "fromX"),
-                     XMLUtility::getAttributeFloat(element, "fromY")};
-    Vector2f to = {XMLUtility::getAttributeFloat(element, "toX"),
-                   XMLUtility::getAttributeFloat(element, "toY")};
-    float duration = XMLUtility::getAttributeFloat(element, "duration");
+    Vector2f from = {getAttributeFloat(element, "fromX"),
+                     getAttributeFloat(element, "fromY")};
+    Vector2f to = {getAttributeFloat(element, "toX"),
+                   getAttributeFloat(element, "toY")};
+    float duration = getAttributeFloat(element, "duration");
     TweenLoop loop = TweenLoop::None;
-    std::string str = XMLUtility::getAttribute(element, "loop");
+    std::string str = getAttribute(element, "loop");
     if (str == "loop") {
         loop = TweenLoop::Loop;
     } else if (str == "pingpong") {
@@ -301,23 +284,23 @@ c2d::TweenScale *XMLUtility::getTweenScale(tinyxml2::XMLElement *element) {
     return tween;
 }
 
-c2d::TweenColor *XMLUtility::getTweenColor(tinyxml2::XMLElement *element) {
+c2d::TweenColor *XMLUtility::getTweenColor(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
 
     if (!element || std::string(element->Value()) != "tweenColor") {
         return nullptr;
     }
 
-    Color from = {XMLUtility::getAttributeInt(element, "fromR"),
-                  XMLUtility::getAttributeInt(element, "fromG"),
-                  XMLUtility::getAttributeInt(element, "fromB"),
-                  XMLUtility::getAttributeInt(element, "fromA")};
-    Color to = {XMLUtility::getAttributeInt(element, "toR"),
-                XMLUtility::getAttributeInt(element, "toG"),
-                XMLUtility::getAttributeInt(element, "toB"),
-                XMLUtility::getAttributeInt(element, "toA")};
-    float duration = XMLUtility::getAttributeFloat(element, "duration");
+    Color from = {getAttributeInt(element, "fromR"),
+                  getAttributeInt(element, "fromG"),
+                  getAttributeInt(element, "fromB"),
+                  getAttributeInt(element, "fromA")};
+    Color to = {getAttributeInt(element, "toR"),
+                getAttributeInt(element, "toG"),
+                getAttributeInt(element, "toB"),
+                getAttributeInt(element, "toA")};
+    float duration = getAttributeFloat(element, "duration");
     TweenLoop loop = TweenLoop::None;
-    std::string str = XMLUtility::getAttribute(element, "loop");
+    std::string str = getAttribute(element, "loop");
     if (str == "loop") {
         loop = TweenLoop::Loop;
     } else if (str == "pingpong") {
@@ -328,18 +311,18 @@ c2d::TweenColor *XMLUtility::getTweenColor(tinyxml2::XMLElement *element) {
     return tween;
 }
 
-c2d::TweenAlpha *XMLUtility::getTweenAlpha(tinyxml2::XMLElement *element) {
+c2d::TweenAlpha *XMLUtility::getTweenAlpha(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
 
     if (!element || std::string(element->Value()) != "tweenAlpha") {
         return nullptr;
     }
 
     // parse rectangle outline
-    float from = XMLUtility::getAttributeFloat(element, "from");
-    float to = XMLUtility::getAttributeFloat(element, "to");
-    float duration = XMLUtility::getAttributeFloat(element, "duration");
+    float from = getAttributeFloat(element, "from");
+    float to = getAttributeFloat(element, "to");
+    float duration = getAttributeFloat(element, "duration");
     TweenLoop loop = TweenLoop::None;
-    std::string str = XMLUtility::getAttribute(element, "loop");
+    std::string str = getAttribute(element, "loop");
     if (str == "loop") {
         loop = TweenLoop::Loop;
     } else if (str == "pingpong") {
@@ -349,4 +332,3 @@ c2d::TweenAlpha *XMLUtility::getTweenAlpha(tinyxml2::XMLElement *element) {
     auto tween = new TweenAlpha(from, to, duration, loop, TweenState::Playing);
     return tween;
 }
-

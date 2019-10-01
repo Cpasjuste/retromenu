@@ -4,8 +4,6 @@
 
 #include "XMLUtility.h"
 #include "XMLRectangle.h"
-#include "XMLTexture.h"
-#include "XMLText.h"
 
 using namespace c2d;
 
@@ -26,7 +24,6 @@ XMLRectangle::XMLRectangle(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2
 
     // parse xml child's
     tinyxml2::XMLNode *child = node->FirstChild();
-
     while (child) {
 
         tinyxml2::XMLElement *element = child->ToElement();
@@ -36,7 +33,7 @@ XMLRectangle::XMLRectangle(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2
         if (value == "rectangle" || value == "texture" || value == "text") {
             XMLUtility::addChild(this, child);
         } else if (Utility::startWith(value, "tween")) {
-            XMLUtility::addTween(this, child);
+            XMLUtility::addTween(this, parentSize, child);
         } else {
             // this object values
             if (value == "color") {
@@ -46,6 +43,7 @@ XMLRectangle::XMLRectangle(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2
                 setOutlineThickness((float) XMLUtility::getOutlineSize(element));
             }
         }
+
         child = child->NextSibling();
     }
 }
