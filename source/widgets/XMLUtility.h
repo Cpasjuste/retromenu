@@ -33,8 +33,6 @@ public:
 
     static c2d::Color getColor(tinyxml2::XMLElement *element);
 
-    static c2d::Color getOutlineColor(tinyxml2::XMLElement *element);
-
     static int getOutlineSize(tinyxml2::XMLElement *element);
 
     static c2d::Origin getOrigin(tinyxml2::XMLElement *element);

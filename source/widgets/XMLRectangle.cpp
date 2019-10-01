@@ -39,7 +39,7 @@ XMLRectangle::XMLRectangle(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2
             if (value == "color") {
                 setFillColor(XMLUtility::getColor(element));
             } else if (value == "outline") {
-                setOutlineColor(XMLUtility::getOutlineColor(element));
+                setOutlineColor(XMLUtility::getColor(element));
                 setOutlineThickness((float) XMLUtility::getOutlineSize(element));
             }
         }

@@ -42,7 +42,7 @@ XMLText::XMLText(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2DText("") 
             if (value == "color") {
                 setFillColor(XMLUtility::getColor(element));
             } else if (value == "outline") {
-                setOutlineColor(XMLUtility::getOutlineColor(element));
+                setOutlineColor(XMLUtility::getColor(element));
                 setOutlineThickness((float) XMLUtility::getOutlineSize(element));
             } else if (value == "string") {
                 setString(XMLUtility::getText(element));

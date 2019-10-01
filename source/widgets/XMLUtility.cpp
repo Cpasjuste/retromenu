@@ -125,20 +125,6 @@ c2d::Color XMLUtility::getColor(tinyxml2::XMLElement *element) {
     return color;
 }
 
-c2d::Color XMLUtility::getOutlineColor(tinyxml2::XMLElement *element) {
-
-    Color color{};
-
-    if (element) {
-        color.r = getAttributeInt(element, "r");
-        color.g = getAttributeInt(element, "g");
-        color.b = getAttributeInt(element, "b");
-        color.a = getAttributeInt(element, "a");
-    }
-
-    return color;
-}
-
 int XMLUtility::getOutlineSize(tinyxml2::XMLElement *element) {
 
     int size = 0;
