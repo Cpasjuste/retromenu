@@ -8,6 +8,11 @@
 using namespace c2d;
 using namespace tinyxml2;
 
-Scene::Scene(c2d::C2DObject *parent, tinyxml2::XMLNode *root) : XMLRectangle(parent, root) {
+Scene::Scene(const std::string &n, c2d::C2DObject *parent, tinyxml2::XMLNode *root) : XMLRectangle(parent, root) {
+    name = n;
     setFillColor(Color::Transparent);
+}
+
+std::string Scene::getName() {
+    return name;
 }

@@ -2,6 +2,7 @@
 // Created by cpasjuste on 30/09/2019.
 //
 
+#include "SceneManager.h"
 #include "XMLUtility.h"
 #include "XMLText.h"
 
@@ -45,6 +46,9 @@ XMLText::XMLText(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2DText("") 
                 setOutlineThickness((float) XMLUtility::getOutlineSize(element));
             } else if (value == "string") {
                 setString(XMLUtility::getText(element));
+            } else if (value == "font") {
+                std::string path = XMLUtility::getText(element);
+                setFont(sceneManager->getFont(path));
             }
         }
         child = child->NextSibling();
