@@ -2,7 +2,6 @@
 // Created by cpasjuste on 30/09/2019.
 //
 
-#include <cross2d/c2d.h>
 #include "XMLUtility.h"
 #include "XMLRectangle.h"
 #include "XMLText.h"
@@ -10,129 +9,83 @@
 
 using namespace c2d;
 
-bool XMLUtility::loadObject(c2d::C2DObject *me, c2d::C2DObject *parent, tinyxml2::XMLNode *node) {
+void XMLUtility::addChild(c2d::C2DObject *parent, tinyxml2::XMLNode *node) {
 
-    if (!node) {
-        fprintf(stderr, "XMLUtility::loadObject: xml node is null\n");
-        return false;
+    std::string value = node->Value();
+
+    if (value == "rectangle") {
+        // ADD CHILD (RECTANGLE)
+        auto obj = new XMLRectangle(parent, node);
+        parent->add(obj);
+    } else if (value == "texture") {
+        // ADD CHILD (TEXTURE)
+        tinyxml2::XMLElement *e = node->ToElement()->FirstChildElement("path");
+        if (e) {
+            std::string path = XMLUtility::getText(e);
+            if (!path.empty()) {
+                auto obj = new XMLTexture(parent, node, path);
+                parent->add(obj);
+            }
+        }
+    } else if (value == "text") {
+        // ADD CHILD (TEXT)
+        auto obj = new XMLText(parent, node);
+        parent->add(obj);
     }
+}
 
-    XMLRectangle *rectangle = me->getType() == Type::Shape ? (XMLRectangle *) me : nullptr;
-    XMLTexture *texture = me->getType() == Type::Texture ? (XMLTexture *) me : nullptr;
-    XMLText *text = me->getType() == Type::Text ? (XMLText *) me : nullptr;
+void XMLUtility::addTween(c2d::C2DObject *parent, tinyxml2::XMLNode *node) {
 
-    // get parent size for percent capability
+    std::string value = node->Value();
+    tinyxml2::XMLElement *element = node->ToElement();
+
+    if (value == "tweenPosition") {
+        auto tween = XMLUtility::getTweenPosition(element);
+        if (tween) {
+            parent->add(tween);
+        }
+    } else if (value == "tweenRotation") {
+        auto tween = XMLUtility::getTweenRotation(element);
+        if (tween) {
+            parent->add(tween);
+        }
+    } else if (value == "tweenScale") {
+        auto tween = XMLUtility::getTweenScale(element);
+        if (tween) {
+            parent->add(tween);
+        }
+    } else if (value == "tweenColor") {
+        auto tween = XMLUtility::getTweenColor(element);
+        if (tween) {
+            parent->add(tween);
+        }
+    } else if (value == "tweenAlpha") {
+        auto tween = XMLUtility::getTweenAlpha(element);
+        if (tween) {
+            parent->add(tween);
+        }
+    }
+}
+
+c2d::Vector2f XMLUtility::getParentSize(c2d::C2DObject *parent) {
+
     Vector2f parentSize{};
+
     if (parent) {
         if (parent->getType() == Type::Shape) {
             parentSize = ((XMLRectangle *) parent)->getSize();
         } else if (parent->getType() == Type::Texture) {
             parentSize = ((XMLTexture *) parent)->getSize();
         } else if (parent->getType() == Type::Text) {
-            parentSize.x = ((XMLText *) parent)->getLocalBounds().width;
-            parentSize.y = ((XMLText *) parent)->getLocalBounds().height;
+            parentSize.x = ((XMLText *) parent)->getGlobalBounds().width;
+            parentSize.y = ((XMLText *) parent)->getGlobalBounds().height;
         } else {
             // assume renderer is parent
             parentSize = ((Renderer *) parent)->getSize();
         }
     }
 
-    // parse size and origin
-    FloatRect rect = XMLUtility::getRectangle(node->ToElement(), parentSize);
-    Origin origin = XMLUtility::getOrigin(node->ToElement());
-    if (rectangle) {
-        rectangle->setPosition(rect.left, rect.top);
-        rectangle->setSize(rect.width, rect.height);
-        rectangle->setOrigin(origin);
-    } else if (texture) {
-        texture->setPosition(rect.left, rect.top);
-        texture->setScale(rect.width / texture->getSize().x, rect.height / texture->getSize().y);
-        texture->setOrigin(origin);
-    } else if (text) {
-        text->setCharacterSize((unsigned int) rect.height);
-        text->setPosition(rect.left, rect.top);
-        text->setSizeMax(rect.width, rect.height);
-        text->setOrigin(origin);
-    }
-
-    // parse child's
-    tinyxml2::XMLNode *child = node->FirstChild();
-    while (child) {
-        tinyxml2::XMLElement *element = child->ToElement();
-        std::string value = child->Value();
-        if (value == "rectangle") {
-            auto obj = new XMLRectangle(me, child);
-            me->add(obj);
-        } else if (value == "texture") {
-            tinyxml2::XMLElement *e = element->FirstChildElement("path");
-            if (e) {
-                std::string path = getText(e);
-                if (!path.empty()) {
-                    auto obj = new XMLTexture(me, child, path);
-                    me->add(obj);
-                }
-            }
-        } else if (value == "text") {
-            auto obj = new XMLText(me, child);
-            me->add(obj);
-        } else if (value == "string") {
-            text->setString(getText(element));
-        } else if (value == "color") {
-            Color color = XMLUtility::getColor(element);
-            if (rectangle) {
-                rectangle->setFillColor(color);
-            } else if (texture) {
-                texture->setFillColor(color);
-            } else if (text) {
-                text->setFillColor(color);
-            }
-        } else if (value == "outline") {
-            Color color = XMLUtility::getOutlineColor(element);
-            int size = XMLUtility::getOutlineSize(element);
-            if (rectangle) {
-                rectangle->setOutlineColor(color);
-                rectangle->setOutlineThickness((float) size);
-            } else if (texture) {
-                texture->setOutlineColor(color);
-                texture->setOutlineThickness((float) size);
-            } else if (text) {
-                text->setOutlineColor(color);
-                text->setOutlineThickness((float) size);
-            }
-        } else if (value == "ratio") {
-            // TODO
-
-        } else if (value == "tweenPosition") {
-            auto tween = XMLUtility::getTweenPosition(element);
-            if (tween) {
-                me->add(tween);
-            }
-        } else if (value == "tweenRotation") {
-            auto tween = XMLUtility::getTweenRotation(element);
-            if (tween) {
-                me->add(tween);
-            }
-        } else if (value == "tweenScale") {
-            auto tween = XMLUtility::getTweenScale(element);
-            if (tween) {
-                me->add(tween);
-            }
-        } else if (value == "tweenColor") {
-            auto tween = XMLUtility::getTweenColor(element);
-            if (tween) {
-                me->add(tween);
-            }
-        } else if (value == "tweenAlpha") {
-            auto tween = XMLUtility::getTweenAlpha(element);
-            if (tween) {
-                me->add(tween);
-            }
-        }
-
-        child = child->NextSibling();
-    }
-
-    return true;
+    return parentSize;
 }
 
 std::string XMLUtility::getAttribute(tinyxml2::XMLElement *element, const std::string &name) {
@@ -258,23 +211,23 @@ c2d::Origin XMLUtility::getOrigin(tinyxml2::XMLElement *element) {
     }
 
     std::string str = getAttribute(element, "origin");
-    if (str == "Left") {
+    if (str == "left") {
         origin = Origin::Left;
-    } else if (str == "TopLeft") {
+    } else if (str == "topLeft") {
         origin = Origin::TopLeft;
-    } else if (str == "Top") {
+    } else if (str == "top") {
         origin = Origin::Top;
-    } else if (str == "TopRight") {
+    } else if (str == "topRight") {
         origin = Origin::TopRight;
-    } else if (str == "Right") {
+    } else if (str == "right") {
         origin = Origin::Right;
-    } else if (str == "BottomRight") {
+    } else if (str == "bottomRight") {
         origin = Origin::BottomRight;
-    } else if (str == "Bottom") {
+    } else if (str == "bottom") {
         origin = Origin::Bottom;
-    } else if (str == "BottomLeft") {
+    } else if (str == "bottomLeft") {
         origin = Origin::BottomLeft;
-    } else if (str == "Center") {
+    } else if (str == "center") {
         origin = Origin::Center;
     }
 
@@ -396,5 +349,4 @@ c2d::TweenAlpha *XMLUtility::getTweenAlpha(tinyxml2::XMLElement *element) {
     auto tween = new TweenAlpha(from, to, duration, loop, TweenState::Playing);
     return tween;
 }
-
 

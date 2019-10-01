@@ -13,9 +13,11 @@ class XMLUtility {
 
 public:
 
-    static bool loadObject(c2d::C2DObject *me, c2d::C2DObject *parent, tinyxml2::XMLNode *node);
+    static void addChild(c2d::C2DObject *parent, tinyxml2::XMLNode *node);
 
-private:
+    static void addTween(c2d::C2DObject *parent, tinyxml2::XMLNode *node);
+
+    static c2d::Vector2f getParentSize(c2d::C2DObject *parent);
 
     static std::string getAttribute(tinyxml2::XMLElement *element, const std::string &name);
 

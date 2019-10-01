@@ -4,13 +4,12 @@
 
 #include "XMLUtility.h"
 #include "XMLRectangle.h"
+#include "XMLTexture.h"
+#include "XMLText.h"
 
 using namespace c2d;
-using namespace tinyxml2;
 
 XMLRectangle::XMLRectangle(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2DRectangle(Vector2f()) {
-
-    printf("XMLRectangle()\n");
 
     // should not happen
     if (!node) {
@@ -18,5 +17,35 @@ XMLRectangle::XMLRectangle(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2
         return;
     }
 
-    XMLUtility::loadObject(this, parent, node);
+    Vector2f parentSize = XMLUtility::getParentSize(parent);
+    // parse size and origin
+    FloatRect rect = XMLUtility::getRectangle(node->ToElement(), parentSize);
+    setPosition(rect.left, rect.top);
+    setSize(rect.width, rect.height);
+    setOrigin(XMLUtility::getOrigin(node->ToElement()));
+
+    // parse xml child's
+    tinyxml2::XMLNode *child = node->FirstChild();
+
+    while (child) {
+
+        tinyxml2::XMLElement *element = child->ToElement();
+        std::string value = child->Value();
+
+        // add child object
+        if (value == "rectangle" || value == "texture" || value == "text") {
+            XMLUtility::addChild(this, child);
+        } else if (Utility::startWith(value, "tween")) {
+            XMLUtility::addTween(this, child);
+        } else {
+            // this object values
+            if (value == "color") {
+                setFillColor(XMLUtility::getColor(element));
+            } else if (value == "outline") {
+                setOutlineColor(XMLUtility::getOutlineColor(element));
+                setOutlineThickness((float) XMLUtility::getOutlineSize(element));
+            }
+        }
+        child = child->NextSibling();
+    }
 }
