@@ -11,6 +11,7 @@ using namespace c2d;
 
 void XMLUtility::addChild(c2d::C2DObject *parent, tinyxml2::XMLNode *node) {
 
+    /*
     std::string value = node->Value();
 
     if (value == "rectangle") {
@@ -32,6 +33,7 @@ void XMLUtility::addChild(c2d::C2DObject *parent, tinyxml2::XMLNode *node) {
         auto obj = new XMLText(parent, node);
         parent->add(obj);
     }
+    */
 }
 
 c2d::Vector2f XMLUtility::getParentSize(c2d::C2DObject *parent) {

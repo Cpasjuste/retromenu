@@ -7,9 +7,17 @@
 
 using namespace c2d;
 
-XMLRectangle::XMLRectangle(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2DRectangle(Vector2f()) {
+XMLRectangle::XMLRectangle(XMLWidget *parent, tinyxml2::XMLNode *node)
+        : C2DRectangle(Vector2f()), XMLWidget(XMLWidget::Type::Rectangle, parent, node) {
+
+    printf("XMLRectangle()\n");
+
+    load();
+
+    //XMLWidget::type = XMLWidget::Type::Rectangle;
 
     // should not happen
+    /*
     if (!node) {
         setVisibility(Visibility::Hidden);
         return;
@@ -46,4 +54,5 @@ XMLRectangle::XMLRectangle(c2d::C2DObject *parent, tinyxml2::XMLNode *node) : C2
 
         child = child->NextSibling();
     }
+    */
 }
