@@ -5,13 +5,15 @@
 #ifndef RETROMENU_XMLTEXT_H
 #define RETROMENU_XMLTEXT_H
 
-#include <tinyxml2.h>
-#include <cross2d/c2d.h>
+#include "XMLWidget.h"
 
-class XMLText : public c2d::C2DText {
+class XMLText : public c2d::C2DText, public XMLWidget {
 
 public:
-    explicit XMLText(c2d::C2DObject *parent, tinyxml2::XMLNode *node);
+    explicit XMLText(tinyxml2::XMLNode *node, c2d::C2DObject *parent);
+
+private:
+    void load_derived(tinyxml2::XMLElement *element) override;
 };
 
 #endif //RETROMENU_XMLTEXT_H

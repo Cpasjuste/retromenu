@@ -3,14 +3,14 @@
     rectangle x: x position in pixels ("100") or percent relative to parent ("100%")
     rectangle y: y position in pixels ("100") or percent relative to parent ("100%")
     rectangle w: width in pixels ("100"), percent relative to parent ("100%") or parent width minus value ("-100")
-    rectangle h: height in pixels ("100"), percent relative to parent ("100%") or parent width minus value ("-100")
+    rectangle h: height in pixels ("100"), percent relative to parent ("100%") or parent height minus value ("-100")
     rectangle origin: left, topLeft, top, topRight, right, bottomRight, bottom, bottomLeft, center
 -->
 <!--
     texture x: x position in pixels ("100") or percent relative to parent ("100%")
     texture y: y position in pixels ("100") or percent relative to parent ("100%")
     texture w: width in pixels ("100"), percent relative to parent ("100%") or parent width minus value ("-100")
-    texture h: height in pixels ("100"), percent relative to parent ("100%") or parent width minus value ("-100")
+    texture h: height in pixels ("100"), percent relative to parent ("100%") or parent height minus value ("-100")
     texture origin: left, topLeft, top, topRight, right, bottomRight, bottom, bottomLeft, center
     texture ratio: free, keep_width, keep_height
     texture path: path to image file
@@ -20,33 +20,30 @@
     tween loop: none, loop, pingpong
 -->
 <Skin>
-    <LoadingScene x="0" y="0" w="100%" h="100%">
-        <rectangle x="2" y="2" w="-4" h="-4" origin="topLeft">
-            <color r="70" g="70" b="70" a="255"/>
-            <outline r="255" g="51" b="51" a="255" size="2"/>
-            <texture x="50%" y="50%" w="60%" h="60%" origin="center">
-                <color r="255" g="255" b="255" a="255"/>
-                <ratio>keep_width</ratio>
-                <path>pfba.png</path>
-                <tweenAlpha from="255" to="155" duration="1" loop="pingpong"/>
-                // TODO: add support for % to tweenScale
-                <tweenScale fromX="1" fromY="1" toX="0.99" toY="0.99" duration="1" loop="pingpong"/>
-            </texture>
-            <texture x="3%" y="95%" w="3%" h="5%" origin="center">
-                <color r="255" g="51" b="51" a="255"/>
-                <ratio>keep_width</ratio>
-                <path>loading.png</path>
-                <tweenRotation from="0" to="360" duration="2" loop="loop"/>
-                <tweenPosition fromX="-3%" fromY="95%" toX="3%" toY="95%" duration="1" loop="none"/>
-            </texture>
-            <text x="5%" y="95%" w="100%" h="5%" origin="left">
-                <color r="255" g="255" b="0" a="255"/>
-                <outline r="255" g="51" b="51" a="255" size="1"/>
-                <font>pop_warner.ttf</font>
-                <string>Please wait... loading...</string>
-                <tweenPosition fromX="6%" fromY="105%" toX="6%" toY="95%" duration="1" loop="none"/>
-            </text>
-        </rectangle>
+    <LoadingScene x="2" y="2" w="-4" h="-4">
+        <color r="70" g="70" b="70" a="255"/>
+        <outline r="255" g="51" b="51" a="255" size="2"/>
+        <texture x="50%" y="50%" w="60%" h="60%" origin="center">
+            <color r="255" g="255" b="255" a="255"/>
+            <ratio>keep_width</ratio>
+            <path>pfba.png</path>
+            <tweenAlpha from="255" to="155" duration="1" loop="pingpong"/>
+            <tweenScale from.x="1" from.y="1" to.x="0.99" to.y="0.99" duration="1" loop="pingpong"/>
+        </texture>
+        <texture x="3%" y="95%" w="3%" h="5%" origin="center">
+            <color r="255" g="51" b="51" a="255"/>
+            <ratio>keep_width</ratio>
+            <path>loading.png</path>
+            <tweenRotation from="0" to="360" duration="2" loop="loop"/>
+            <tweenPosition from.x="-3%" from.y="95%" to.x="3%" to.y="95%" duration="1" loop="none"/>
+        </texture>
+        <text x="5%" y="95%" w="100%" h="5%" origin="left">
+            <color r="255" g="255" b="0" a="255"/>
+            <outline r="255" g="51" b="51" a="255" size="1"/>
+            <font>pop_warner.ttf</font>
+            <string>Please wait... loading...</string>
+            <tweenPosition from.x="6%" from.y="105%" to.x="6%" to.y="95%" duration="1" loop="none"/>
+        </text>
         <!--
          <text x="4" y="4" w="1280" h="25" origin="topLeft">
              <color r="255" g="255" b="0" a="255"/>
@@ -64,8 +61,8 @@
          <rectangle x="160" y="48" w="64" h="64" origin="center">
              <color r="0" g="0" b="255" a="255"/>
              <outline r="0" g="255" b="0" a="255" size="1"/>
-             <tweenPosition fromX="160" fromY="-128" toX="160" toY="48" duration="1" loop="none"/>
-             <tweenScale fromX="1" fromY="1" toX="0.5" toY="0.5" duration="1" loop="pingpong"/>
+             <tweenPosition from.x="160" from.y="-128" to.x="160" to.y="48" duration="1" loop="none"/>
+             <tweenScale from.x="1" from.y="1" to.x="0.5" to.y="0.5" duration="1" loop="pingpong"/>
              <tweenRotation from="0" to="360" duration="1" loop="loop"/>
              <tweenColor fromR="0" fromG="0" fromB="255" fromA="255" toR="255" toG="0" toB="0" toA="255" duration="1"
                          loop="pingpong"/>

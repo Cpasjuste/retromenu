@@ -39,7 +39,7 @@ Scene *SceneManager::load(const std::string &name) {
         return nullptr;
     }
 
-    auto scene = new Scene(name, nullptr, sceneNode);
+    auto scene = new Scene(sceneNode, nullptr, name);
     scenes.emplace_back(scene);
     return scene;
 }

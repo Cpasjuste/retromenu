@@ -5,13 +5,12 @@
 #ifndef RETROMENU_XMLTEXTURE_H
 #define RETROMENU_XMLTEXTURE_H
 
-#include <tinyxml2.h>
-#include <cross2d/c2d.h>
+#include "XMLWidget.h"
 
-class XMLTexture : public c2d::C2DTexture {
+class XMLTexture : public c2d::C2DTexture, public XMLWidget {
 
 public:
-    explicit XMLTexture(c2d::C2DObject *parent, tinyxml2::XMLNode *node, const std::string &path);
+    explicit XMLTexture(tinyxml2::XMLNode *node, c2d::C2DObject *parent, const std::string &path);
 };
 
 #endif //RETROMENU_XMLTEXTURE_H
