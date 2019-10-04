@@ -199,8 +199,6 @@ c2d::TweenScale *XMLWidget::getTweenScale(tinyxml2::XMLElement *element, const c
             getAttributeFloat(element, "to.y")
     };
 
-    printf("getTweenScale: %f %f - %f %f\n", from.x, from.y, to.x, to.y);
-
     float duration = getAttributeFloat(element, "duration");
     TweenLoop loop = TweenLoop::None;
     std::string str = getAttribute(element, "loop");

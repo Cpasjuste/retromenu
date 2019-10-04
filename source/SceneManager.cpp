@@ -4,7 +4,9 @@
 
 #include "SceneManager.h"
 
-// TODO: this is not really clean, but this is safe
+using namespace c2d;
+
+// TODO: this is not really clean, but well...
 SceneManager *sceneManager;
 
 SceneManager::SceneManager(c2d::Renderer *r, const std::string &x) {
@@ -25,9 +27,15 @@ SceneManager::SceneManager(c2d::Renderer *r, const std::string &x) {
 }
 
 SceneManager::~SceneManager() {
+
     xmlDocument.Clear();
+
+    for (const auto &texture : textures) {
+        delete (texture);
+    }
+
     for (const auto &font : fonts) {
-        delete (font.data);
+        delete (font);
     }
 }
 
@@ -57,24 +65,37 @@ void SceneManager::remove(const std::string &name) {
 
 c2d::Font *SceneManager::getFont(const std::string &path) {
 
-    auto font = std::find_if(fonts.begin(), fonts.end(), [&path](const Font &font) {
-        return font.path == path;
+    auto font = std::find_if(fonts.begin(), fonts.end(), [&path](Font *fnt) {
+        return fnt->getPath() == path;
     });
 
     if (font != fonts.end()) {
-        printf("SceneManager::getFont: font already loaded (%s)\n", path.c_str());
-        return (*font).data;
+        return *font;
     }
 
-    auto data = new c2d::Font();
-    if (!data->loadFromFile(path)) {
+    auto fnt = new c2d::Font();
+    if (!fnt->loadFromFile(path)) {
         fprintf(stderr, "SceneManager::getFont: font not found (%s)\n", path.c_str());
-        delete (data);
+        delete (fnt);
         // return default (built-in) font
         return renderer->getFont();
     }
 
-    fonts.push_back({data, path});
+    fonts.push_back(fnt);
+    return fnt;
+}
 
-    return data;
+c2d::Texture *SceneManager::getTexture(const std::string &path) {
+
+    auto texture = std::find_if(textures.begin(), textures.end(), [&path](Texture *tex) {
+        return tex->path == path;
+    });
+
+    if (texture != textures.end()) {
+        return *texture;
+    }
+
+    auto tex = new C2DTexture(path);
+    textures.push_back(tex);
+    return tex;
 }

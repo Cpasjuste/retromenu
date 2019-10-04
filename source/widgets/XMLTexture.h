@@ -7,7 +7,7 @@
 
 #include "XMLWidget.h"
 
-class XMLTexture : public c2d::C2DTexture, public XMLWidget {
+class XMLTexture : public c2d::Sprite, public XMLWidget {
 
 public:
     explicit XMLTexture(tinyxml2::XMLNode *node, c2d::C2DObject *parent, const std::string &path);

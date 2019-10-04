@@ -13,11 +13,6 @@ class SceneManager {
 
 public:
 
-    struct Font {
-        c2d::Font *data;
-        std::string path;
-    };
-
     explicit SceneManager(c2d::Renderer *renderer, const std::string &xml);
 
     ~SceneManager();
@@ -28,13 +23,16 @@ public:
 
     c2d::Font *getFont(const std::string &path);
 
+    c2d::Texture *getTexture(const std::string &path);
+
 private:
 
     tinyxml2::XMLDocument xmlDocument;
     tinyxml2::XMLNode *xmlRoot = nullptr;
     c2d::Renderer *renderer = nullptr;
     std::vector<Scene *> scenes;
-    std::vector<Font> fonts;
+    std::vector<c2d::Font *> fonts;
+    std::vector<c2d::Texture *> textures;
 };
 
 extern SceneManager *sceneManager;
