@@ -24,6 +24,8 @@ SceneManager::SceneManager(c2d::Renderer *r, const std::string &x) {
         printf("main: Skin node not found\n");
         return;
     }
+
+    setVar("LOADING_PERCENT", "100");
 }
 
 SceneManager::~SceneManager() {
@@ -98,4 +100,30 @@ c2d::Texture *SceneManager::getTexture(const std::string &path) {
     auto tex = new C2DTexture(path);
     textures.push_back(tex);
     return tex;
+}
+
+void SceneManager::setVar(const std::string &name, const std::string &value) {
+
+    auto var = std::find_if(variables.begin(), variables.end(), [&name](const Variable &variable) {
+        return variable.name == name;
+    });
+
+    if (var != variables.end()) {
+        (*var).value = value;
+    } else {
+        variables.push_back({name, value});
+    }
+}
+
+const std::string &SceneManager::getVar(const std::string &name) {
+
+    auto var = std::find_if(variables.begin(), variables.end(), [&name](const Variable &variable) {
+        return variable.name == name;
+    });
+
+    if (var != variables.end()) {
+        return (*var).value;
+    }
+
+    return name;
 }

@@ -13,6 +13,11 @@ class SceneManager {
 
 public:
 
+    struct Variable {
+        std::string name;
+        std::string value;
+    };
+
     explicit SceneManager(c2d::Renderer *renderer, const std::string &xml);
 
     ~SceneManager();
@@ -25,6 +30,10 @@ public:
 
     c2d::Texture *getTexture(const std::string &path);
 
+    void setVar(const std::string &name, const std::string &value);
+
+    const std::string &getVar(const std::string &name);
+
 private:
 
     tinyxml2::XMLDocument xmlDocument;
@@ -33,6 +42,7 @@ private:
     std::vector<Scene *> scenes;
     std::vector<c2d::Font *> fonts;
     std::vector<c2d::Texture *> textures;
+    std::vector<Variable> variables;
 };
 
 extern SceneManager *sceneManager;
