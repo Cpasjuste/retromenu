@@ -55,7 +55,7 @@ void XMLWidget::load(c2d::C2DObject *w) {
                 }
             }
             // parse derived class custom values
-            load_derived(element);
+            parse(element);
         }
 
         child = child->NextSibling();

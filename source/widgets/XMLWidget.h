@@ -32,7 +32,7 @@ private:
 
     void add(tinyxml2::XMLNode *node);
 
-    virtual void load_derived(tinyxml2::XMLElement *element) {};
+    virtual void parse(tinyxml2::XMLElement *element) {};
 
     static void addTween(c2d::C2DObject *parent, const c2d::Vector2f &parentSize, tinyxml2::XMLNode *node);
 

@@ -15,7 +15,7 @@ public:
 
 private:
 
-    void load_derived(tinyxml2::XMLElement *element) override;
+    void parse(tinyxml2::XMLElement *element) override;
 
     void onUpdate() override;
 

@@ -14,7 +14,7 @@ XMLText::XMLText(tinyxml2::XMLNode *node, c2d::C2DObject *parent)
     load(this);
 }
 
-void XMLText::load_derived(tinyxml2::XMLElement *element) {
+void XMLText::parse(tinyxml2::XMLElement *element) {
 
     std::string value = element->Value();
     if (value == "string") {
