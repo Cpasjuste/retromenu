@@ -25,6 +25,7 @@ SceneManager::SceneManager(c2d::Renderer *r, const std::string &x) {
         return;
     }
 
+    setVar("APP_VERSION", "1.0a");
     setVar("LOADING_PERCENT", "100");
 }
 
@@ -118,7 +119,7 @@ void SceneManager::setVar(const std::string &name, const std::string &value) {
 const std::string &SceneManager::getVar(const std::string &name) {
 
     auto var = std::find_if(variables.begin(), variables.end(), [&name](const Variable &variable) {
-        return variable.name == name;
+        return "${" + variable.name + "}" == name;
     });
 
     if (var != variables.end()) {

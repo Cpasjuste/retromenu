@@ -29,22 +29,23 @@ void XMLText::load_derived(tinyxml2::XMLElement *element) {
 
 void XMLText::onUpdate() {
 
-    if (!isVisible() || !hasVars) {
+    if (!isVisible()) {
         return;
     }
 
-    std::string str;
-    std::vector<std::string> split = Utility::split(xmlString, "${");
-    for (const auto &s : split) {
-        if (Utility::contains(s, "}")) {
-            str += sceneManager->getVar(Utility::remove(s, "}"));
-        } else {
-            str += s;
-        }
-    }
+    if (hasVars) {
 
-    if (getString() != str) {
-        setString(str);
+        size_t pos = 0, end = 0;
+        std::string var, line = xmlString;
+        while ((pos = line.find("${", end - pos)) != std::string::npos) {
+            end = line.find('}', pos) + 1;
+            var = sceneManager->getVar(line.substr(pos, end - pos));
+            line.replace(pos, end - pos, var);
+        }
+
+        if (getString() != line) {
+            setString(line);
+        }
     }
 
     Text::onUpdate();
