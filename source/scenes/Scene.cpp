@@ -7,10 +7,12 @@
 using namespace c2d;
 using namespace tinyxml2;
 
-Scene::Scene(tinyxml2::XMLNode *r, c2d::C2DObject *p, const std::string &n) : XMLRectangle(r, p) {
+Scene::Scene(tinyxml2::XMLNode *r, c2d::C2DObject *p) : XMLRectangle(r, p) {
 
-    printf("Scene(): %s\n", n.c_str());
-    name = n;
+    if (r) {
+        printf("Scene(): %s\n", r->Value());
+        name = r->Value();
+    }
 }
 
 std::string Scene::getName() {

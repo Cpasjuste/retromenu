@@ -42,30 +42,6 @@ SceneManager::~SceneManager() {
     }
 }
 
-Scene *SceneManager::load(const std::string &name) {
-
-    tinyxml2::XMLNode *sceneNode = xmlRoot->FirstChildElement(name.c_str());
-    if (!sceneNode) {
-        printf("Scene::Scene(): could not find Scene xml node\n");
-        return nullptr;
-    }
-
-    auto scene = new Scene(sceneNode, nullptr, name);
-    scenes.emplace_back(scene);
-    return scene;
-}
-
-void SceneManager::remove(const std::string &name) {
-
-    auto scene = std::find_if(scenes.begin(), scenes.end(), [&name](Scene *scene) {
-        return scene->getName() == name;
-    });
-
-    if (*scene) {
-        delete (*scene);
-    }
-}
-
 c2d::Font *SceneManager::getFont(const std::string &path) {
 
     auto font = std::find_if(fonts.begin(), fonts.end(), [&path](Font *fnt) {
@@ -127,4 +103,12 @@ const std::string &SceneManager::getVar(const std::string &name) {
     }
 
     return name;
+}
+
+tinyxml2::XMLNode *SceneManager::getSceneNode(const std::string &name) {
+    return xmlRoot->FirstChildElement(name.c_str());
+}
+
+tinyxml2::XMLNode *SceneManager::getXmlRoot() {
+    return xmlRoot;
 }

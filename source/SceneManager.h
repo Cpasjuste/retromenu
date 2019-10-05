@@ -22,10 +22,6 @@ public:
 
     ~SceneManager();
 
-    Scene *load(const std::string &name);
-
-    void remove(const std::string &name);
-
     c2d::Font *getFont(const std::string &path);
 
     c2d::Texture *getTexture(const std::string &path);
@@ -34,12 +30,15 @@ public:
 
     const std::string &getVar(const std::string &name);
 
+    tinyxml2::XMLNode *getSceneNode(const std::string &name);
+
+    tinyxml2::XMLNode *getXmlRoot();
+
 private:
 
     tinyxml2::XMLDocument xmlDocument;
     tinyxml2::XMLNode *xmlRoot = nullptr;
     c2d::Renderer *renderer = nullptr;
-    std::vector<Scene *> scenes;
     std::vector<c2d::Font *> fonts;
     std::vector<c2d::Texture *> textures;
     std::vector<Variable> variables;

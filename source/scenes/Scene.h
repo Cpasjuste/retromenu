@@ -13,7 +13,7 @@ class Scene : public XMLRectangle {
 
 public:
 
-    explicit Scene(tinyxml2::XMLNode *root, c2d::C2DObject *parent, const std::string &name);
+    explicit Scene(tinyxml2::XMLNode *root, c2d::C2DObject *parent = nullptr);
 
     std::string getName();
 

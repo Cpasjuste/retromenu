@@ -15,10 +15,8 @@ int main(int argc, char **argv) {
     auto renderer = new C2DRenderer({1280 / 2.0f, 720 / 2.0f});
     auto manager = new SceneManager(renderer, "skin.xml");
 
-    auto scene = manager->load("LoadingScene");
-    if (scene) {
-        renderer->add(scene);
-    }
+    auto scene = new Scene(manager->getSceneNode("LoadingScene"));
+    renderer->add(scene);
 
     while (true) {
 
