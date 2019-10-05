@@ -25,8 +25,8 @@ SceneManager::SceneManager(c2d::Renderer *r, const std::string &x) {
         return;
     }
 
-    setVar("APP_VERSION", "1.0a");
-    setVar("LOADING_PERCENT", "100");
+    setVar(APP_VERSION, "1.0a");
+    setVar(LOADING_PERCENT, "0");
 }
 
 SceneManager::~SceneManager() {
@@ -92,7 +92,7 @@ void SceneManager::setVar(const std::string &name, const std::string &value) {
     }
 }
 
-const std::string &SceneManager::getVar(const std::string &name) {
+std::string SceneManager::getVar(const std::string &name) {
 
     auto var = std::find_if(variables.begin(), variables.end(), [&name](const Variable &variable) {
         return "${" + variable.name + "}" == name;
@@ -102,7 +102,7 @@ const std::string &SceneManager::getVar(const std::string &name) {
         return (*var).value;
     }
 
-    return name;
+    return "";
 }
 
 tinyxml2::XMLNode *SceneManager::getSceneNode(const std::string &name) {

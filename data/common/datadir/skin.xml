@@ -30,18 +30,18 @@
             <tweenAlpha from="255" to="155" duration="1" loop="pingpong"/>
             <tweenScale from.x="1" from.y="1" to.x="0.99" to.y="0.99" duration="1" loop="pingpong"/>
         </texture>
-        <texture x="3%" y="95%" w="3%" h="5%" origin="center">
+        <texture x="-3%" y="95%" w="3%" h="5%" origin="center">
             <color r="255" g="51" b="51" a="255"/>
             <ratio>keep_width</ratio>
             <path>loading.png</path>
             <tweenRotation from="0" to="360" duration="2" loop="loop"/>
             <tweenPosition from.x="-3%" from.y="95%" to.x="3%" to.y="95%" duration="1" loop="none"/>
         </texture>
-        <text x="5%" y="95%" w="100%" h="3%" origin="left">
+        <text x="6%" y="105%" w="100%" h="3%" origin="left">
             <color r="255" g="255" b="0" a="255"/>
             <outline r="255" g="51" b="51" a="255" size="1"/>
             <font>PressStart2P.ttf</font>
-            <string>Please wait... loading... ${LOADING_PERCENT}%, version: ${APP_VERSION}</string>
+            <string>Please wait... loading... ${LOADING_PERCENT}%, version: ${APP_VESION}</string>
             <tweenPosition from.x="6%" from.y="105%" to.x="6%" to.y="96%" duration="1" loop="none"/>
         </text>
         <!--

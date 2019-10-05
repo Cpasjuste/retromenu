@@ -7,7 +7,7 @@
 
 #include <string>
 #include <tinyxml2.h>
-#include <scenes/Scene.h>
+#include "scenes/Scene.h"
 
 class SceneManager {
 
@@ -28,7 +28,7 @@ public:
 
     void setVar(const std::string &name, const std::string &value);
 
-    const std::string &getVar(const std::string &name);
+    std::string getVar(const std::string &name);
 
     tinyxml2::XMLNode *getSceneNode(const std::string &name);
 
@@ -45,5 +45,8 @@ private:
 };
 
 extern SceneManager *sceneManager;
+
+#define LOADING_PERCENT "LOADING_PERCENT"
+#define APP_VERSION "APP_VERSION"
 
 #endif //RETROMENU_SCENEMANAGER_H

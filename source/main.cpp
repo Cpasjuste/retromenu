@@ -3,6 +3,7 @@
 //
 
 #include <cross2d/c2d.h>
+#include "scenes/LoadingScene.h"
 #include "SceneManager.h"
 #include "main.h"
 
@@ -15,8 +16,8 @@ int main(int argc, char **argv) {
     auto renderer = new C2DRenderer({1280 / 2.0f, 720 / 2.0f});
     auto manager = new SceneManager(renderer, "skin.xml");
 
-    auto scene = new Scene(manager->getSceneNode("LoadingScene"));
-    renderer->add(scene);
+    auto scene = new LoadingScene(manager);
+    renderer->add((Scene *) scene);
 
     while (true) {
 
