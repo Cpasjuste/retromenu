@@ -11,9 +11,8 @@ using namespace c2d;
 using namespace tinyxml2;
 
 int main(int argc, char **argv) {
-
     // create main stuff
-    auto renderer = new C2DRenderer({1280 / 2.0f, 720 / 2.0f});
+    auto renderer = new C2DRenderer({C2D_SCREEN_WIDTH, C2D_SCREEN_HEIGHT});
     auto manager = new SceneManager(renderer, "skin.xml");
 
     auto scene = new LoadingScene(manager);

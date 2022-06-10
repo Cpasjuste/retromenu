@@ -11,14 +11,12 @@
 using namespace c2d;
 
 XMLWidget::XMLWidget(tinyxml2::XMLNode *n, c2d::C2DObject *p) {
-
     printf("XMLWidget()\n");
     parent = p;
     node = n;
 }
 
 void XMLWidget::load(c2d::C2DObject *w) {
-
     widget = w;
 
     // parse size and origin
@@ -31,7 +29,6 @@ void XMLWidget::load(c2d::C2DObject *w) {
     // parse xml child's
     tinyxml2::XMLNode *child = node->FirstChild();
     while (child) {
-
         tinyxml2::XMLElement *element = child->ToElement();
         std::string value = child->Value();
 
@@ -63,7 +60,6 @@ void XMLWidget::load(c2d::C2DObject *w) {
 }
 
 void XMLWidget::add(tinyxml2::XMLNode *n) {
-
     std::string value = n->Value();
     if (value == "rectangle") {
         auto obj = new XMLRectangle(n, widget);
@@ -84,7 +80,6 @@ void XMLWidget::add(tinyxml2::XMLNode *n) {
 }
 
 c2d::Vector2f XMLWidget::getParentSize() {
-
     if (parent) {
         return parent->getSize();
     }
@@ -93,7 +88,6 @@ c2d::Vector2f XMLWidget::getParentSize() {
 }
 
 float XMLWidget::parseSize(const std::string &attribute, float parentSize) {
-
     if (Utility::contains(attribute, "%")) {
         float scaling = Utility::parseFloat(Utility::remove(attribute, "%")) / 100;
         return parentSize * scaling;
@@ -105,7 +99,6 @@ float XMLWidget::parseSize(const std::string &attribute, float parentSize) {
 }
 
 void XMLWidget::addTween(c2d::C2DObject *parent, const c2d::Vector2f &parentSize, tinyxml2::XMLNode *node) {
-
     std::string value = node->Value();
     tinyxml2::XMLElement *element = node->ToElement();
 
@@ -138,7 +131,6 @@ void XMLWidget::addTween(c2d::C2DObject *parent, const c2d::Vector2f &parentSize
 }
 
 c2d::TweenPosition *XMLWidget::getTweenPosition(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
-
     if (!element || std::string(element->Value()) != "tweenPosition") {
         return nullptr;
     }
@@ -164,7 +156,6 @@ c2d::TweenPosition *XMLWidget::getTweenPosition(tinyxml2::XMLElement *element, c
 }
 
 c2d::TweenRotation *XMLWidget::getTweenRotation(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
-
     if (!element || std::string(element->Value()) != "tweenRotation") {
         return nullptr;
     }
@@ -185,7 +176,6 @@ c2d::TweenRotation *XMLWidget::getTweenRotation(tinyxml2::XMLElement *element, c
 }
 
 c2d::TweenScale *XMLWidget::getTweenScale(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
-
     if (!element || std::string(element->Value()) != "tweenScale") {
         return nullptr;
     }
@@ -213,7 +203,6 @@ c2d::TweenScale *XMLWidget::getTweenScale(tinyxml2::XMLElement *element, const c
 }
 
 c2d::TweenColor *XMLWidget::getTweenColor(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
-
     if (!element || std::string(element->Value()) != "tweenColor") {
         return nullptr;
     }
@@ -240,7 +229,6 @@ c2d::TweenColor *XMLWidget::getTweenColor(tinyxml2::XMLElement *element, const c
 }
 
 c2d::TweenAlpha *XMLWidget::getTweenAlpha(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
-
     if (!element || std::string(element->Value()) != "tweenAlpha") {
         return nullptr;
     }
@@ -262,7 +250,6 @@ c2d::TweenAlpha *XMLWidget::getTweenAlpha(tinyxml2::XMLElement *element, const c
 }
 
 c2d::FloatRect XMLWidget::getRectangle(tinyxml2::XMLElement *element, const c2d::Vector2f &parentSize) {
-
     FloatRect rect{};
 
     if (element) {
@@ -276,7 +263,6 @@ c2d::FloatRect XMLWidget::getRectangle(tinyxml2::XMLElement *element, const c2d:
 }
 
 c2d::Color XMLWidget::getColor(tinyxml2::XMLElement *element) {
-
     Color color{};
 
     if (element) {
@@ -290,7 +276,6 @@ c2d::Color XMLWidget::getColor(tinyxml2::XMLElement *element) {
 }
 
 int XMLWidget::getOutlineSize(tinyxml2::XMLElement *element) {
-
     int size = 0;
 
     if (element) {
@@ -301,7 +286,6 @@ int XMLWidget::getOutlineSize(tinyxml2::XMLElement *element) {
 }
 
 c2d::Origin XMLWidget::getOrigin(tinyxml2::XMLElement *element) {
-
     Origin origin = Origin::TopLeft;
     if (!element) {
         return origin;
@@ -335,7 +319,6 @@ c2d::Origin XMLWidget::getOrigin(tinyxml2::XMLElement *element) {
 /// XML helper's
 ///
 std::string XMLWidget::getAttribute(tinyxml2::XMLElement *element, const std::string &name) {
-
     if (!element || !element->Attribute(name.c_str())) {
         return "";
     }
@@ -352,7 +335,6 @@ float XMLWidget::getAttributeFloat(tinyxml2::XMLElement *element, const std::str
 }
 
 std::string XMLWidget::getText(tinyxml2::XMLElement *element) {
-
     if (!element || !element->GetText()) {
         return "";
     }

@@ -8,7 +8,6 @@ using namespace c2d;
 using namespace tinyxml2;
 
 Scene::Scene(tinyxml2::XMLNode *r, c2d::C2DObject *p) : XMLRectangle(r, p) {
-
     if (r) {
         printf("Scene(): %s\n", r->Value());
         name = r->Value();

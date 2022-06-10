@@ -40,45 +40,9 @@
         <text x="6%" y="105%" w="100%" h="3%" origin="left">
             <color r="255" g="255" b="0" a="255"/>
             <outline r="255" g="51" b="51" a="255" size="1"/>
-            <font>PressStart2P.ttf</font>
+            <font>default.ttf</font>
             <string>Please wait... loading... ${LOADING_PERCENT}%, version: ${APP_VESION}</string>
             <tweenPosition from.x="6%" from.y="105%" to.x="6%" to.y="96%" duration="1" loop="none"/>
         </text>
-        <!--
-         <text x="4" y="4" w="1280" h="25" origin="topLeft">
-             <color r="255" g="255" b="0" a="255"/>
-             <outline r="255" g="0" b="0" a="255" size="2"/>
-             <string>Hello (Skinnable) World</string>
-         </text>
-         <rectangle x="32" y="32" w="64" h="64" origin="topLeft">
-             <color r="0" g="255" b="0" a="255"/>
-             <outline r="255" g="0" b="0" a="255" size="1"/>
-             <rectangle x="32" y="32" w="32" h="32" origin="center">
-                 <color r="255" g="255" b="0" a="255"/>
-                 <outline r="255" g="0" b="255" a="255" size="1"/>
-             </rectangle>
-         </rectangle>
-         <rectangle x="160" y="48" w="64" h="64" origin="center">
-             <color r="0" g="0" b="255" a="255"/>
-             <outline r="0" g="255" b="0" a="255" size="1"/>
-             <tweenPosition from.x="160" from.y="-128" to.x="160" to.y="48" duration="1" loop="none"/>
-             <tweenScale from.x="1" from.y="1" to.x="0.5" to.y="0.5" duration="1" loop="pingpong"/>
-             <tweenRotation from="0" to="360" duration="1" loop="loop"/>
-             <tweenColor fromR="0" fromG="0" fromB="255" fromA="255" toR="255" toG="0" toB="0" toA="255" duration="1"
-                         loop="pingpong"/>
-             <tweenAlpha from="255" to="100" duration="0.5" loop="pingpong"/>
-             <text x="32" y="32" w="1280" h="25" origin="center">
-                 <color r="255" g="255" b="0" a="255"/>
-                 <outline r="255" g="0" b="0" a="255" size="2"/>
-                 <string>ROT</string>
-             </text>
-         </rectangle>
-         <texture x="50%" y="50%" w="50%" h="50%" origin="topLeft">
-             <color r="255" g="255" b="255" a="255"/>
-             <outline r="255" g="0" b="255" a="255" size="10"/>
-             <ratio>keep_width</ratio>
-             <path>pfba.png</path>
-         </texture>
-         -->
     </LoadingScene>
 </Skin>
