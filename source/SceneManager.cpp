@@ -10,9 +10,9 @@ using namespace c2d;
 SceneManager *sceneManager;
 
 SceneManager::SceneManager(c2d::Renderer *r, const std::string &x) {
-
     sceneManager = this;
     renderer = r;
+
     tinyxml2::XMLError e = xmlDocument.LoadFile(x.c_str());
     if (e != tinyxml2::XML_SUCCESS) {
         printf("main: %s\n", tinyxml2::XMLDocument::ErrorIDToName(e));
@@ -30,20 +30,18 @@ SceneManager::SceneManager(c2d::Renderer *r, const std::string &x) {
 }
 
 SceneManager::~SceneManager() {
-
     xmlDocument.Clear();
 
-    for (const auto &texture : textures) {
+    for (const auto &texture: textures) {
         delete (texture);
     }
 
-    for (const auto &font : fonts) {
+    for (const auto &font: fonts) {
         delete (font);
     }
 }
 
 c2d::Font *SceneManager::getFont(const std::string &path) {
-
     auto font = std::find_if(fonts.begin(), fonts.end(), [&path](Font *fnt) {
         return fnt->getPath() == path;
     });
@@ -65,9 +63,8 @@ c2d::Font *SceneManager::getFont(const std::string &path) {
 }
 
 c2d::Texture *SceneManager::getTexture(const std::string &path) {
-
     auto texture = std::find_if(textures.begin(), textures.end(), [&path](Texture *tex) {
-        return tex->path == path;
+        return tex->m_path == path;
     });
 
     if (texture != textures.end()) {
@@ -80,7 +77,6 @@ c2d::Texture *SceneManager::getTexture(const std::string &path) {
 }
 
 void SceneManager::setVar(const std::string &name, const std::string &value) {
-
     auto var = std::find_if(variables.begin(), variables.end(), [&name](const Variable &variable) {
         return variable.name == name;
     });
@@ -93,7 +89,6 @@ void SceneManager::setVar(const std::string &name, const std::string &value) {
 }
 
 std::string SceneManager::getVar(const std::string &name) {
-
     auto var = std::find_if(variables.begin(), variables.end(), [&name](const Variable &variable) {
         return "${" + variable.name + "}" == name;
     });

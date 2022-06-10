@@ -5,7 +5,6 @@
 #ifndef RETROMENU_LOADINGSCENE_H
 #define RETROMENU_LOADINGSCENE_H
 
-#include "ss_api.h"
 #include "SceneManager.h"
 #include "Scene.h"
 
@@ -16,8 +15,6 @@ public:
     explicit LoadingScene(SceneManager *sm);
 
 private:
-
-    ss_api::Api::GameList gameList;
 };
 
 #endif //RETROMENU_LOADINGSCENE_H

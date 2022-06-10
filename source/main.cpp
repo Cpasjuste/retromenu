@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     while (true) {
 
         // stop if any key is pressed
-        if (renderer->getInput()->getKeys()) {
+        if (renderer->getInput()->getButtons()) {
             break;
         }
 
